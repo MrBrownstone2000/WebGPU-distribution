@@ -36,17 +36,20 @@ endif()
 # of backend and the fetch script instead of depot_tools.
 option(DAWN_FETCH_DEPENDENCIES "Use fetch_dawn_dependencies.py as an alternative to using depot_tools" ON)
 
+option(DAWN_FORCE_SYSTEM_COMPONENT_LOAD "Allow system component fallback" ON)
+
 if (APPLE)
 	set(ENABLE_VULKAN OFF)
 	set(ENABLE_METAL ON)
 else()
 	set(ENABLE_VULKAN ON)
+	set(ENABLE_D3D12 OFF)
 	set(ENABLE_METAL OFF)
 endif()
 option(DAWN_ENABLE_VULKAN "Enable compilation of the Vulkan backend" ${ENABLE_VULKAN})
 option(DAWN_ENABLE_METAL "Enable compilation of the Metal backend" ${ENABLE_METAL})
 option(DAWN_ENABLE_D3D11 "Enable compilation of the D3D11 backend" OFF)
-option(DAWN_ENABLE_D3D12 "Enable compilation of the D3D12 backend" OFF)
+option(DAWN_ENABLE_D3D12 "Enable compilation of the D3D12 backend" ${ENABLE_D3D12})
 option(DAWN_ENABLE_NULL "Enable compilation of the Null backend" OFF)
 option(DAWN_ENABLE_DESKTOP_GL "Enable compilation of the OpenGL backend" OFF)
 option(DAWN_ENABLE_OPENGLES "Enable compilation of the OpenGL ES backend" OFF)
@@ -71,11 +74,6 @@ FetchContent_Declare(
 		git init &&
 		git fetch --depth=1 ${DAWN_SOURCE_MIRROR} chromium/${DAWN_VERSION} &&
 		git reset --hard FETCH_HEAD
-
-	PATCH_COMMAND
-		cmake
-		"-DPATCH_FILE=${CMAKE_CURRENT_LIST_DIR}/patch/dawn.patch"
-		-P "${PROJECT_SOURCE_DIR}/cmake/apply_patch_idempotent.cmake"
 )
 FetchContent_MakeAvailable(dawn)
 
