@@ -65,11 +65,6 @@ add_library(webgpu INTERFACE)
 # This is used to advertise the flavor of WebGPU that this zip provides
 target_compile_definitions(webgpu INTERFACE WEBGPU_BACKEND_EMDAWNWEBGPU)
 
-# Add include path to webgpu.hpp
-target_include_directories(webgpu INTERFACE
-	"${CMAKE_CURRENT_SOURCE_DIR}/include"
-)
-
 target_compile_options(webgpu INTERFACE
 	"--use-port=${emdawnwebgpu_ROOT}/emdawnwebgpu.port.py"
 )

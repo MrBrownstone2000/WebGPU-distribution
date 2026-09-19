@@ -113,9 +113,6 @@ endif()
 # This is used to advertise the flavor of WebGPU that this zip provides
 target_compile_definitions(webgpu INTERFACE WEBGPU_BACKEND_WGPU)
 
-# This add webgpu.hpp
-target_include_directories(webgpu INTERFACE "${CMAKE_CURRENT_LIST_DIR}/include")
-
 # TODO: There should be a wgpu-native-config.cmake file provided together with wgpu-native
 build_lib_filename(BINARY_FILENAME "wgpu_native" ${USE_SHARED_LIB})
 set(WEBGPU_RUNTIME_LIB "${ZIP_DIR}/lib/${BINARY_FILENAME}")

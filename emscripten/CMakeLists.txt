@@ -33,11 +33,6 @@ add_library(webgpu INTERFACE)
 # This is used to advertise the flavor of WebGPU that this zip provides
 target_compile_definitions(webgpu INTERFACE WEBGPU_BACKEND_EMSCRIPTEN)
 
-# Add include path to webgpu.hpp
-target_include_directories(webgpu INTERFACE
-	"${CMAKE_CURRENT_SOURCE_DIR}/include"
-)
-
 target_link_options(webgpu INTERFACE
 	-sUSE_WEBGPU # Handle WebGPU symbols when linking
 )
