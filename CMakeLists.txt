@@ -32,9 +32,9 @@ else()
 endif()
 
 set(WEBGPU_BACKEND ${WEBGPU_BACKEND_DEFAULT} CACHE STRING "\
-	Backend implementation of WebGPU. Possible values are EMSCRIPTEN, EMDAWNWEBGPU, WGPU and DAWN \
+	Backend implementation of WebGPU. Possible values are EMDAWNWEBGPU, WGPU and DAWN \
 	(it does not matter when using emcmake)")
-set_property(CACHE WEBGPU_BACKEND PROPERTY STRINGS EMSCRIPTEN EMDAWNWEBGPU WGPU DAWN)
+set_property(CACHE WEBGPU_BACKEND PROPERTY STRINGS EMDAWNWEBGPU WGPU DAWN)
 
 option(WEBGPU_BUILD_FROM_SOURCE "\
 	When ON, fetch the source code of the backend and build it. \
@@ -59,14 +59,7 @@ include("${CMAKE_CURRENT_LIST_DIR}/cmake/utils.cmake")
 # Convert to uppercase, so that users can provide value with any case they like
 string(TOUPPER ${WEBGPU_BACKEND} WEBGPU_BACKEND_U)
 
-if (WEBGPU_BACKEND_U STREQUAL "EMSCRIPTEN")
-
-	if (NOT EMSCRIPTEN)
-		message(FATAL_ERROR "Setting WEBGPU_BACKEND to EMSCRIPTEN is only compatible with emscripten compiler. Try WGPU or DAWN instead.")
-	endif()
-	add_subdirectory(emscripten)
-
-elseif (WEBGPU_BACKEND_U STREQUAL "EMDAWNWEBGPU")
+if (WEBGPU_BACKEND_U STREQUAL "EMDAWNWEBGPU")
 
 	if (NOT EMSCRIPTEN)
 		message(FATAL_ERROR "Setting WEBGPU_BACKEND to EMDAWNWEBGPU is only compatible with emscripten compiler. Try WGPU or DAWN instead.")
@@ -76,19 +69,19 @@ elseif (WEBGPU_BACKEND_U STREQUAL "EMDAWNWEBGPU")
 elseif (WEBGPU_BACKEND_U STREQUAL "WGPU")
 
 	if (EMSCRIPTEN)
-		message(FATAL_ERROR "Setting WEBGPU_BACKEND to WGPU is not compatible with emscripten compiler. Try EMSCRIPTEN or EMDAWNWEBGPU instead.")
+		message(FATAL_ERROR "Setting WEBGPU_BACKEND to WGPU is not compatible with emscripten compiler. Try EMDAWNWEBGPU instead.")
 	endif()
 	add_subdirectory(wgpu-native)
 
 elseif (WEBGPU_BACKEND_U STREQUAL "DAWN")
 
 	if (EMSCRIPTEN)
-		message(FATAL_ERROR "Setting WEBGPU_BACKEND to DAWN is not compatible with emscripten compiler. Try EMSCRIPTEN or EMDAWNWEBGPU instead.")
+		message(FATAL_ERROR "Setting WEBGPU_BACKEND to DAWN is not compatible with emscripten compiler. Try EMDAWNWEBGPU instead.")
 	endif()
 	add_subdirectory(dawn)
 
 else()
 
-	message(FATAL_ERROR "Invalid value for WEBGPU_BACKEND: possible values are EMSCRIPTEN, WGPU, end DAWN, but '${WEBGPU_BACKEND_U}' was provided.")
+	message(FATAL_ERROR "Invalid value for WEBGPU_BACKEND: possible values are EMDAWNWEBGPU, WGPU and DAWN, but '${WEBGPU_BACKEND_U}' was provided.")
 
 endif()
